@@ -14,7 +14,8 @@ import android.widget.Toast;
 public class TestAccelerometreActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private boolean color = false;
-    private TextView view;
+    private TextView topView;
+    private TextView midView;
     private long lastUpdate;
 
 
@@ -24,16 +25,23 @@ public class TestAccelerometreActivity extends Activity implements SensorEventLi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        view = findViewById(R.id.textView);
-        view.setBackgroundColor(Color.GREEN);
+        topView = findViewById(R.id.textViewTop);
+        midView = findViewById(R.id.textViewMid);
+
+        topView.setBackgroundColor(Color.GREEN);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
 
-        if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null)
+        if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
+            midView.setText(getResources().getString(R.string.sensor_ok));
             sensorManager.registerListener(this,
                     sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        else {
+            midView.setText(getResources().getString(R.string.sensor_ko));
+        }
         // register this class as a listener for the accelerometer sensor
 
         lastUpdate = System.currentTimeMillis();
@@ -64,10 +72,10 @@ public class TestAccelerometreActivity extends Activity implements SensorEventLi
 
             Toast.makeText(this, R.string.shuffed, Toast.LENGTH_SHORT).show();
             if (color) {
-                view.setBackgroundColor(Color.GREEN);
+                topView.setBackgroundColor(Color.GREEN);
 
             } else {
-                view.setBackgroundColor(Color.RED);
+                topView.setBackgroundColor(Color.RED);
             }
             color = !color;
         }

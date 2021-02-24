@@ -4,8 +4,10 @@
     <string name="app_name">TestAccel</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="shake">Shake to get a toast and to switch color</string>
+    <string name="loading">Loading sensor data…</string>
+    <string name="sensor_ok">Shake to get a toast and to switch color</string>
+    <string name="sensor_ko">Sorry, there is no accelerometer</string>
     <string name="shuffed">Device was shuffed</string>
-    ""
+
 
 </resources>
