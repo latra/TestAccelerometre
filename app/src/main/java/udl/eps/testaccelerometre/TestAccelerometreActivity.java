@@ -29,7 +29,8 @@ public class TestAccelerometreActivity extends Activity implements SensorEventLi
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        if (sensorManager != null)
+
+        if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null)
             sensorManager.registerListener(this,
                     sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_NORMAL);
@@ -54,7 +55,7 @@ public class TestAccelerometreActivity extends Activity implements SensorEventLi
         float accelationSquareRoot = (x * x + y * y + z * z)
                 / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
         long actualTime = System.currentTimeMillis();
-        if (accelationSquareRoot >= 2)
+        if (accelationSquareRoot >= 1.7)
         {
             if (actualTime - lastUpdate < 200) {
                 return;
@@ -77,6 +78,20 @@ public class TestAccelerometreActivity extends Activity implements SensorEventLi
         // Do something here if sensor accuracy changes.
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null)
+            sensorManager.registerListener(this,
+                    sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                    SensorManager.SENSOR_DELAY_NORMAL);
+    }
     @Override
     protected void onPause() {
         // unregister listener
