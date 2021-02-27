@@ -1,32 +1,24 @@
 package udl.eps.testaccelerometre.listeners;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.io.Console;
 
 import udl.eps.testaccelerometre.R;
 
 public class LightSensorListener implements SensorEventListener {
-    private Activity mainActivity;
-    private TextView listener_text;
+    private final Activity mainActivity;
+    private final TextView sensorData;
     private long lastUpdate;
 
-    private static float LIGHT_MIN = 1000;
-    private static float LIGHT_MAX = 3000;
+    private static final float LIGHT_MIN = 1000;
+    private static final float LIGHT_MAX = 3000;
     private String current_status;
     public LightSensorListener(Activity activity) {
         this.mainActivity = activity;
-        this.listener_text = this.mainActivity.findViewById(R.id.textViewBot);
+        this.sensorData = this.mainActivity.findViewById(R.id.lightSensorData);
         lastUpdate = System.currentTimeMillis();
 
 
@@ -45,8 +37,9 @@ public class LightSensorListener implements SensorEventListener {
         float light = values[0];
         String status = light < LIGHT_MIN ? "LOW" :
                 light >= LIGHT_MIN && light < LIGHT_MAX ? "MEDIUM" : "HIGH";
+
         if (!status.equals(current_status)) {
-            listener_text.setText(status);
+            sensorData.setText(String.format(mainActivity.getString(R.string.light_sensor_data), light, status));
             lastUpdate = System.currentTimeMillis();
         }
     }

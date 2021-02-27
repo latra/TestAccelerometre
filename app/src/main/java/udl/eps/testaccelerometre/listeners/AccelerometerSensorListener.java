@@ -9,19 +9,24 @@ import android.hardware.SensorManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import udl.eps.testaccelerometre.R;
 
 public class AccelerometerSensorListener implements SensorEventListener {
-    private Activity mainActivity;
+    private final Activity mainActivity;
     private long lastUpdate;
     private boolean color = false;
-    private TextView colorView;
+    private final TextView colorView;
 
     public AccelerometerSensorListener(Activity activity) {
         this.mainActivity = activity;
-        colorView = this.mainActivity.findViewById(R.id.textViewTop);
+        colorView = this.mainActivity.findViewById(R.id.topView);
         lastUpdate = System.currentTimeMillis();
+
     }
+
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {

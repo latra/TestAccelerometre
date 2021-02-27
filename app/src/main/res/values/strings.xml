@@ -5,8 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="loading">Loading sensor data…</string>
-    <string name="sensor_ok">Shake to get a toast and to switch color</string>
-    <string name="sensor_ko">Sorry, there is no accelerometer</string>
+    <string name="acc_sensor_ok">Shake to get a toast and to switch color</string>
+    <string name="acc_sensor_ko">Sorry, there is no accelerometer</string>
+    <string name="acc_sensor_data">Resolucio: %f\nRang mesura: %f\nConsum: %f</string>
+    <string name="light_sensor_ok">Light sensor available. Rang max measure = %f</string>
+    <string name="light_sensor_ko">Sorry, there is no light sensor</string>
+    <string name="light_sensor_data">New value light sensor = %f\n%s Intensity</string>
     <string name="shuffed">Device was shuffed</string>
 
 

@@ -8,6 +8,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,39 +18,60 @@ import udl.eps.testaccelerometre.listeners.LightSensorListener;
 
 public class TestAccelerometreActivity extends Activity {
     private SensorManager sensorManager;
-    private TextView topView;
-    private TextView midView;
     private SensorEventListener lightListener;
     private SensorEventListener accelerometerListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("test! START");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        topView = findViewById(R.id.textViewTop);
-        midView = findViewById(R.id.textViewMid);
+
+
+        TextView topView = findViewById(R.id.topView);
+        LinearLayout midView = findViewById(R.id.midLayout);
+        ScrollView botView = findViewById(R.id.botView);
+        TextView accStatus = findViewById(R.id.accSensorStatus);
+        TextView lightStatus = findViewById(R.id.lightSensorStatus);
         topView.setBackgroundColor(Color.GREEN);
+        botView.setBackgroundColor(Color.YELLOW);
+
+
         lightListener = new LightSensorListener(this);
         accelerometerListener = new AccelerometerSensorListener(this);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null)
+        if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT) != null) {
+            lightStatus.setText(String.format(getString(R.string.light_sensor_ok),
+                    sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT).getMaximumRange()));
             sensorManager.registerListener(lightListener,
                     sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
                     SensorManager.SENSOR_DELAY_NORMAL);
+        } else
+            lightStatus.setText(getResources().getString(R.string.light_sensor_ko));
+
 
         if (sensorManager != null && sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            midView.setText(getResources().getString(R.string.sensor_ok));
+            accStatus.setText(getResources().getString(R.string.acc_sensor_ok));
+            showSensorData(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
             sensorManager.registerListener(accelerometerListener,
                     sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                     SensorManager.SENSOR_DELAY_NORMAL);
 
         } else
-            midView.setText(getResources().getString(R.string.sensor_ko));
+            accStatus.setText(getResources().getString(R.string.acc_sensor_ko));
 
-        // register this class as a listener for the accelerometer sensor
 
+
+    }
+
+    private void showSensorData(Sensor sensor) {
+        showSensorData(sensor.getResolution(), sensor.getMaximumRange(), sensor.getPower());
+    }
+
+    private void showSensorData(float resolution, float rank, float power) {
+        TextView sensorData = findViewById(R.id.accSensorData);
+        sensorData.setText(String.format(getString(R.string.acc_sensor_data),
+                resolution, rank, power));
 
     }
 
