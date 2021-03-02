@@ -41,6 +41,7 @@ public class LightSensorListener implements SensorEventListener {
         if (!status.equals(current_status)) {
             sensorData.setText(String.format(mainActivity.getString(R.string.light_sensor_data), light, status));
             lastUpdate = System.currentTimeMillis();
+            current_status = status;
         }
     }
 
